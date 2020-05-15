@@ -106,13 +106,19 @@ void cycle_identity() {
 
 
 int main(int argc, char **argv) {
+	int tmp_sock = make_socket(argv[1], argv[2]);
+	close(tmp_sock);
+
 	if (argc != 3)
 		cycle_identity();
+	
+	
 	for (unsigned short i = 0; i != THREADS; ++i) {
 		if (fork())
 			attack(argv[1], argv[2], i);
 		usleep(200000);
 	}
 	getc(stdin);
-	return 0;
+
+	return -2;
 }
